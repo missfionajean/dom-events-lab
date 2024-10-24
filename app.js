@@ -12,22 +12,13 @@ let operand1 = null;
 let operand2 = null;
 let operator = null;
 let product = null;
+let showingProduct = false;
 
 /*---------------------- Functions ----------------------*/
 
 // logs content of clicked element to console (unseen by user)
 const logInnerText = (event) => {
 	console.log(event.target.innerText);
-};
-
-// adds the clicked number to the display (to be captured later)
-const addToDisplay = (event) => {
-	if (
-		event.target.classList.contains("number") &&
-		display.innerText.length < 17
-	) {
-		display.innerText += event.target.innerText;
-	}
 };
 
 // clears the display without changing variables
@@ -43,6 +34,17 @@ const clearEquation = (event) => {
 		operand2 = null;
 		operator = null;
 		product = null;
+		showingProduct = false;
+	}
+};
+
+// adds the clicked number to the display (to be captured later)
+const addToDisplay = (event) => {
+	if (event.target.classList.contains("number")) {
+		if (display.innerText.length < 17 && showingProduct === false) {
+			// appends clicked number to displayed number
+			display.innerText += event.target.innerText;
+		}
 	}
 };
 
@@ -53,18 +55,20 @@ const establishOperation = (event) => {
 		operand1 = Number(display.innerText);
 		operator = event.target.innerText;
 		product = null;
+		showingProduct = false;
 		clearDisplay();
 	}
 };
 
 const executeOperation = (event) => {
-    // this needs to go first, since you're using event bubbling
+	// this needs to go first, since you're using event bubbling
 	if (event.target.id === "equals") {
 		// needs to be converted to number type to do math with it
 		operand2 = Number(display.innerText);
 		// returns error if dividing by zero
 		if (operator === "/" && operand2 === 0) {
-			display.innerText = "Can't Divide By 0";
+			display.innerText = "Error: Div By Zero";
+			// else if prevents next block from executing if errored
 		} else if (product === null && operand1) {
 			// needed breaks to work, otherwise always did final case
 			switch (operator) {
@@ -82,7 +86,7 @@ const executeOperation = (event) => {
 					break;
 			}
 			display.innerText = product;
-			operand1 = product;
+			showingProduct = true;
 			operand2 = null;
 			operator = null;
 		}
