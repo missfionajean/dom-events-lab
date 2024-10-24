@@ -53,13 +53,28 @@ const establishOperation = (event) => {
 		operand1 = Number(display.innerText);
 		operator = event.target.innerText;
 		clearDisplay();
-		console.log(operand1, operator);
 	}
 };
 
-// const executeOperation = () => {
+const executeOperation = (event) => {
+	if (event.target.id === "equals") {
+		// needs to be converted to number type to do math with it
+		operand2 = Number(display.innerText);
+		switch (operator) {
+			case "/":
+				product = operand1 / operand2;
+			case "*":
+				product = operand1 * operand2;
+			case "-":
+				product = operand1 - operand2;
+			case "+":
+				product = operand1 + operand2;
+		}
+		display.innerText = product;
+	}
+};
 
-// }
+// under here will go a function to add further operands to a product and continue the equation
 
 /*---------------------- Listeners ----------------------*/
 
@@ -80,3 +95,6 @@ calculator.addEventListener("click", clearEquation);
 
 // listener to log first half of equation
 calculator.addEventListener("click", establishOperation);
+
+// listener for second half of equation
+calculator.addEventListener("click", executeOperation);
