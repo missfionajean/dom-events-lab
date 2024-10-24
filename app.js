@@ -52,34 +52,40 @@ const establishOperation = (event) => {
 		// needs to be converted to number type to do math with it
 		operand1 = Number(display.innerText);
 		operator = event.target.innerText;
-        product = null
+		product = null;
 		clearDisplay();
 	}
 };
 
 const executeOperation = (event) => {
-	if (event.target.id === "equals" && product === null && operand1) {
+    // this needs to go first, since you're using event bubbling
+	if (event.target.id === "equals") {
 		// needs to be converted to number type to do math with it
 		operand2 = Number(display.innerText);
-        // needed breaks to work, otherwise always did final case
-		switch (operator) {
-			case "/":
-				product = operand1 / operand2;
-                break;
-			case "*":
-				product = operand1 * operand2;
-                break;
-			case "-":
-				product = operand1 - operand2;
-                break;
-			case "+":
-				product = operand1 + operand2;
-                break;
+		// returns error if dividing by zero
+		if (operator === "/" && operand2 === 0) {
+			display.innerText = "Can't Divide By 0";
+		} else if (product === null && operand1) {
+			// needed breaks to work, otherwise always did final case
+			switch (operator) {
+				case "/":
+					product = operand1 / operand2;
+					break;
+				case "*":
+					product = operand1 * operand2;
+					break;
+				case "-":
+					product = operand1 - operand2;
+					break;
+				case "+":
+					product = operand1 + operand2;
+					break;
+			}
+			display.innerText = product;
+			operand1 = product;
+			operand2 = null;
+			operator = null;
 		}
-		display.innerText = product;
-        operand1 = product
-        operand2 = null
-        operator = null
 	}
 };
 
