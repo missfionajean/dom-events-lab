@@ -52,15 +52,16 @@ const establishOperation = (event) => {
 		// needs to be converted to number type to do math with it
 		operand1 = Number(display.innerText);
 		operator = event.target.innerText;
-        console.log(operator)
+        product = null
 		clearDisplay();
 	}
 };
 
 const executeOperation = (event) => {
-	if (event.target.id === "equals" && product === null) {
+	if (event.target.id === "equals" && product === null && operand1) {
 		// needs to be converted to number type to do math with it
 		operand2 = Number(display.innerText);
+        // needed breaks to work, otherwise always did final case
 		switch (operator) {
 			case "/":
 				product = operand1 / operand2;
@@ -76,6 +77,9 @@ const executeOperation = (event) => {
                 break;
 		}
 		display.innerText = product;
+        operand1 = product
+        operand2 = null
+        operator = null
 	}
 };
 
