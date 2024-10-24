@@ -12,11 +12,12 @@ let operand1 = null;
 let operand2 = null;
 let operator = null;
 let product = null;
+let cleared = true;
 let showingProduct = false;
 
 /*---------------------- Functions ----------------------*/
 
-// logs content of clicked element to console (unseen by user)
+// logs content of clicked element to console (for testing only)
 const logInnerText = (event) => {
 	console.log(event.target.innerText);
 };
@@ -34,13 +35,18 @@ const clearEquation = (event) => {
 		operand2 = null;
 		operator = null;
 		product = null;
+		cleared = true;
 		showingProduct = false;
 	}
 };
 
 // adds the clicked number to the display (to be captured later)
 const addToDisplay = (event) => {
+	// remember the target has to be specified first if bubbling!
 	if (event.target.classList.contains("number")) {
+		if (cleared) {
+			cleared = false;
+		}
 		if (display.innerText.length < 17 && showingProduct === false) {
 			// appends clicked number to displayed number
 			display.innerText += event.target.innerText;
@@ -50,13 +56,15 @@ const addToDisplay = (event) => {
 
 // stores the first operand in a variable and clears the screen
 const establishOperation = (event) => {
-	if (event.target.classList.contains("operator") && operator === null) {
-		// needs to be converted to number type to do math with it
-		operand1 = Number(display.innerText);
-		operator = event.target.innerText;
-		product = null;
-		showingProduct = false;
-		clearDisplay();
+	if (event.target.classList.contains("operator")) {
+		if (cleared === false && operator === null) {
+			// needs to be number type to do math with it
+			operand1 = Number(display.innerText);
+			operator = event.target.innerText;
+			product = null;
+			showingProduct = false;
+			clearDisplay();
+		}
 	}
 };
 
