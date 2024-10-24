@@ -52,6 +52,7 @@ const establishOperation = (event) => {
 		// needs to be converted to number type to do math with it
 		operand1 = Number(display.innerText);
 		operator = event.target.innerText;
+        console.log(operator)
 		clearDisplay();
 	}
 };
@@ -63,12 +64,16 @@ const executeOperation = (event) => {
 		switch (operator) {
 			case "/":
 				product = operand1 / operand2;
+                break;
 			case "*":
 				product = operand1 * operand2;
+                break;
 			case "-":
 				product = operand1 - operand2;
+                break;
 			case "+":
 				product = operand1 + operand2;
+                break;
 		}
 		display.innerText = product;
 	}
