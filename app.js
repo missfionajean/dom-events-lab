@@ -48,7 +48,7 @@ const clearEquation = (event) => {
 
 // stores the first operand in a variable and clears the screen
 const establishOperation = (event) => {
-	if (event.target.classList.contains("operator")) {
+	if (event.target.classList.contains("operator") && operator === null) {
 		// needs to be converted to number type to do math with it
 		operand1 = Number(display.innerText);
 		operator = event.target.innerText;
@@ -58,7 +58,7 @@ const establishOperation = (event) => {
 };
 
 const executeOperation = (event) => {
-	if (event.target.id === "equals") {
+	if (event.target.id === "equals" && product === null) {
 		// needs to be converted to number type to do math with it
 		operand2 = Number(display.innerText);
 		switch (operator) {
